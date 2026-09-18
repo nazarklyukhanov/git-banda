@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ITMO PADEL — падел-клуб университета ИТМО</title>
+  <meta name="description" content="ITMO PADEL — студенческий падел-клуб. Тренировки, турниры, аренда кортов в Санкт-Петербурге.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --court: #0b3d4c;        /* глубокий кортовый петроль */
+      --court-deep: #072b36;
+      --lime: #d8f34a;         /* цвет падел-мяча */
+      --lime-hot: #eaff5e;
+      --chalk: #f2f7f5;        /* «меловые» линии разметки */
+      --ink: #06222b;
+      --grid-line: rgba(242, 247, 245, 0.09);
+      --radius: 22px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+      background: var(--court);
+      color: var(--chalk);
+      overflow-x: hidden;
+      background-image:
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+      background-size: 72px 72px;
+    }
+
+    h1, h2, h3, .display { font-family: 'Unbounded', sans-serif; }
+
+    ::selection { background: var(--lime); color: var(--ink); }
+
+    /* ── Шапка ─────────────────────────────── */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 5vw;
+      background: color-mix(in srgb, var(--court-deep) 82%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--grid-line);
+    }
+
+    .logo {
+      font-family: 'Unbounded', sans-serif;
+      font-weight: 900;
+      font-size: 1.05rem;
+      letter-spacing: 0.02em;
+      color: var(--chalk);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo .ball {
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, var(--lime-hot), var(--lime) 60%, #a8c22e);
+      box-shadow: 0 0 14px rgba(216, 243, 74, 0.6);
+      animation: bounce 1.6s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    nav { display: flex; gap: 28px; }
+
+    nav a {
+      color: var(--chalk);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      opacity: 0.75;
+      transition: opacity 0.2s, color 0.2s;
+    }
+
+    nav a:hover { opacity: 1; color: var(--lime); }
+
+    .cta-mini {
+      background: var(--lime);
+      color: var(--ink) !important;
+      opacity: 1 !important;
+      padding: 9px 18px;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+    .cta-mini:hover { background: var(--lime-hot); }
+
+    /* ── Герой ─────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 140px 5vw 80px;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 75% 35%, rgba(216, 243, 74, 0.12), transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(216, 243, 74, 0.4);
+      color: var(--lime);
+      border-radius: 999px;
+      padding: 8px 18px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      width: fit-content;
+      margin-bottom: 34px;
+      animation: rise 0.7s ease both;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.6rem, 9vw, 7.5rem);
+      font-weight: 900;
+      line-height: 0.98;
+      text-transform: uppercase;
+      animation: rise 0.7s 0.1s ease both;
+    }
+
+    .hero h1 .stroke {
+      color: transparent;
+      -webkit-text-stroke: 2px var(--lime);
+    }
+
+    .hero h1 .lime { color: var(--lime); }
+
+    .hero p.lead {
+      max-width: 520px;
+      margin-top: 30px;
+      font-size: 1.15rem;
+      line-height: 1.65;
+      opacity: 0.85;
+      animation: rise 0.7s 0.2s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      margin-top: 44px;
+      flex-wrap: wrap;
+      animation: rise 0.7s 0.3s ease both;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(26px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .btn {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 18px 34px;
+      border-radius: 999px;
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--lime);
+      color: var(--ink);
+      box-shadow: 0 8px 30px rgba(216, 243, 74, 0.35);
+    }
+
+    .btn-primary:hover {
+      background: var(--lime-hot);
+      transform: translateY(-3px);
+      box-shadow: 0 14px 40px rgba(216, 243, 74, 0.45);
+    }
+
+    .btn-ghost {
+      border: 1.5px solid rgba(242, 247, 245, 0.35);
+      color: var(--chalk);
+    }
+
+    .btn-ghost:hover { border-color: var(--lime); color: var(--lime); transform: translateY(-3px); }
+
+    /* бегущая строка */
+    .marquee {
+      border-top: 1px solid var(--grid-line);
+      border-bottom: 1px solid var(--grid-line);
+      background: var(--court-deep);
+      overflow: hidden;
+      padding: 16px 0;
+      white-space: nowrap;
+    }
+
+    .marquee-track {
+      display: inline-block;
+      animation: scroll 28s linear infinite;
+      font-family: 'Unbounded', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(242, 247, 245, 0.55);
+    }
+
+    .marquee-track .dot { color: var(--lime); margin: 0 26px; }
+
+    @keyframes scroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* ── Секции ────────────────────────────── */
+    section { padding: 110px 5vw; position: relative; }
+
+    .section-label {
+      font-family: 'Unbounded', sans-serif;
+      color: var(--lime);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    section h2 {
+      font-size: clamp(1.8rem, 4.5vw, 3.4rem);
+      font-weight: 800;
+      text-transform: uppercase;
+      line-height: 1.05;
+      max-width: 720px;
+      margin-bottom: 56px;
+    }
+
+    /* карточки «о клубе» */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 22px;
+    }
+
+    .card {
+      background: var(--court-deep);
+      border: 1px solid var(--grid-line);
+      border-radius: var(--radius);
+      padding: 36px 30px;
+      transition: transform 0.25s, border-color 0.25s;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(216, 243, 74, 0.45);
+    }
+
+    .card .num {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 2.4rem;
+      font-weight: 900;
+      color: var(--lime);
+      display: block;
+      margin-bottom: 16px;
+    }
+
+    .card h3 { font-size: 1.05rem; margin-bottom: 12px; font-weight: 600; }
+
+    .card p { font-size: 0.95rem; line-height: 1.6; opacity: 0.75; }
+
+    /* расписание */
+    .schedule { border-collapse: collapse; width: 100%; max-width: 860px; }
+
+    .schedule tr { border-bottom: 1px solid var(--grid-line); transition: background 0.2s; }
+
+    .schedule tr:hover { background: rgba(216, 243, 74, 0.05); }
+
+    .schedule td { padding: 22px 16px; font-size: 1rem; }
+
+    .schedule .day {
+      font-family: 'Unbounded', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--lime);
+      white-space: nowrap;
+    }
+
+    .schedule .time { opacity: 0.7; white-space: nowrap; }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border: 1px solid rgba(216, 243, 74, 0.4);
+      color: var(--lime);
+      border-radius: 999px;
+      padding: 4px 12px;
+    }
+
+    /* цены */
+    .prices { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; }
+
+    .price-card {
+      border-radius: var(--radius);
+      padding: 42px 34px;
+      border: 1px solid var(--grid-line);
+      background: var(--court-deep);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: transform 0.25s;
+    }
+
+    .price-card:hover { transform: translateY(-6px); }
+
+    .price-card.featured {
+      background: var(--lime);
+      color: var(--ink);
+      box-shadow: 0 20px 60px rgba(216, 243, 74, 0.25);
+    }
+
+    .price-card h3 { font-size: 1rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+
+    .price-card .price {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 2.6rem;
+      font-weight: 900;
+      margin: 14px 0 6px;
+    }
+
+    .price-card .per { font-size: 0.85rem; opacity: 0.65; margin-bottom: 20px; }
+
+    .price-card ul { list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 0.93rem; }
+
+    .price-card li::before { content: '● '; color: var(--lime); font-size: 0.6rem; vertical-align: 2px; margin-right: 8px; }
+
+    .price-card.featured li::before { color: var(--court); }
+
+    /* контакты / футер */
+    footer {
+      background: var(--court-deep);
+      border-top: 1px solid var(--grid-line);
+      padding: 90px 5vw 40px;
+      text-align: center;
+    }
+
+    footer h2 { margin: 0 auto 22px; }
+
+    footer .big-link {
+      font-family: 'Unbounded', sans-serif;
+      font-size: clamp(1.2rem, 3.4vw, 2.4rem);
+      font-weight: 800;
+      color: var(--lime);
+      text-decoration: none;
+      border-bottom: 3px solid transparent;
+      transition: border-color 0.2s;
+    }
+
+    footer .big-link:hover { border-color: var(--lime); }
+
+    footer .meta {
+      margin-top: 70px;
+      font-size: 0.82rem;
+      opacity: 0.5;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    @media (max-width: 640px) {
+      nav a:not(.cta-mini) { display: none; }
+      .schedule td { padding: 16px 8px; font-size: 0.88rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a class="logo" href="#"><span class="ball"></span>ITMO&nbsp;PADEL</a>
+    <nav>
+      <a href="#about">О клубе</a>
+      <a href="#schedule">Расписание</a>
+      <a href="#prices">Цены</a>
+      <a href="#contacts" class="cta-mini">Записаться</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <span class="tag">● студенческий падел-клуб · СПб</span>
+    <h1>
+      Играй<br>
+      <span class="stroke">в падел</span><br>
+      с <span class="lime">ИТМО</span>
+    </h1>
+    <p class="lead">
+      Самый быстрорастущий вид спорта в мире — теперь в твоём университете.
+      Тренировки для новичков и продвинутых, студенческие турниры
+      и своя комьюнити-лига.
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#contacts">Записаться на тренировку</a>
+      <a class="btn btn-ghost" href="#about">Узнать больше</a>
+    </div>
+  </section>
+
+  <div class="marquee">
+    <div class="marquee-track">
+      ITMO PADEL <span class="dot">●</span> ТРЕНИРОВКИ <span class="dot">●</span> ТУРНИРЫ <span class="dot">●</span> КОМЬЮНИТИ <span class="dot">●</span> IT'S MORE THAN A UNIVERSITY <span class="dot">●</span>
+      ITMO PADEL <span class="dot">●</span> ТРЕНИРОВКИ <span class="dot">●</span> ТУРНИРЫ <span class="dot">●</span> КОМЬЮНИТИ <span class="dot">●</span> IT'S MORE THAN A UNIVERSITY <span class="dot">●</span>
+    </div>
+  </div>
+
+  <section id="about">
+    <div class="section-label">// О клубе</div>
+    <h2>Падел — это теннис и сквош, только веселее</h2>
+    <div class="cards">
+      <div class="card">
+        <span class="num">01</span>
+        <h3>Просто начать</h3>
+        <p>Ракетки и мячи выдаём на месте. Первая тренировка — бесплатно для студентов и сотрудников ИТМО.</p>
+      </div>
+      <div class="card">
+        <span class="num">02</span>
+        <h3>Тренеры-практики</h3>
+        <p>Сертифицированные тренеры и играющие капитаны команд. Разберём технику от подачи до выхода со стекла.</p>
+      </div>
+      <div class="card">
+        <span class="num">03</span>
+        <h3>Турниры и лига</h3>
+        <p>Внутренняя лига ITMO Padel League каждый семестр, межвузовские турниры и выездные кэмпы.</p>
+      </div>
+      <div class="card">
+        <span class="num">04</span>
+        <h3>Комьюнити</h3>
+        <p>Чат для поиска пар на игру, совместные просмотры Premier Padel и вечеринки после турниров.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="schedule">
+    <div class="section-label">// Расписание</div>
+    <h2>Тренировки каждую неделю</h2>
+    <table class="schedule">
+      <tr>
+        <td class="day">Понедельник</td>
+        <td class="time">19:00 — 21:00</td>
+        <td>Группа для новичков</td>
+        <td><span class="badge">Старт</span></td>
+      </tr>
+      <tr>
+        <td class="day">Среда</td>
+        <td class="time">20:00 — 22:00</td>
+        <td>Продвинутая группа</td>
+        <td><span class="badge">PRO</span></td>
+      </tr>
+      <tr>
+        <td class="day">Пятница</td>
+        <td class="time">18:00 — 20:00</td>
+        <td>Спарринги и игровая практика</td>
+        <td><span class="badge">Игры</span></td>
+      </tr>
+      <tr>
+        <td class="day">Суббота</td>
+        <td class="time">12:00 — 15:00</td>
+        <td>Открытые игры + лига</td>
+        <td><span class="badge">Лига</span></td>
+      </tr>
+    </table>
+  </section>
+
+  <section id="prices">
+    <div class="section-label">// Цены</div>
+    <h2>Тарифы для своих</h2>
+    <div class="prices">
+      <div class="price-card">
+        <h3>Разовая</h3>
+        <div class="price">700 ₽</div>
+        <div class="per">за тренировку</div>
+        <ul>
+          <li>Ракетка и мячи включены</li>
+          <li>Любая группа по уровню</li>
+          <li>Без обязательств</li>
+        </ul>
+      </div>
+      <div class="price-card featured">
+        <h3>Абонемент</h3>
+        <div class="price">4 900 ₽</div>
+        <div class="per">8 тренировок / месяц</div>
+        <ul>
+          <li>Все групповые тренировки</li>
+          <li>Приоритетная запись на лигу</li>
+          <li>Скидка на турниры 20%</li>
+          <li>Заморозка до 14 дней</li>
+        </ul>
+      </div>
+      <div class="price-card">
+        <h3>Студенческий</h3>
+        <div class="price">450 ₽</div>
+        <div class="per">за тренировку по студаку ИТМО</div>
+        <ul>
+          <li>Действует студенческий билет</li>
+          <li>Первая тренировка бесплатно</li>
+          <li>Доступ в чат клуба</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contacts">
+    <div class="section-label">// Контакты</div>
+    <h2>Готов выйти на корт?</h2>
+    <p style="opacity:0.75; margin-bottom: 28px;">Пиши в телеграм — подберём группу и время.</p>
+    <a class="big-link" href="https://t.me/itmo_padel" target="_blank" rel="noopener">@itmo_padel</a>
+    <div class="meta">
+      <span>© 2026 ITMO PADEL · Санкт-Петербург</span>
+      <span>Кронверкский пр., 49 → корты партнёров</span>
+    </div>
+  </footer>
+
+</body>
+</html>
